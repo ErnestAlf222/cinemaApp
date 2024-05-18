@@ -28,34 +28,75 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   void initState() {
     super.initState();
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+    // * 6. Consumir información
+    ref.read(popularMoviesProvider.notifier).loadNextPage();
+    ref.read(topRatedMoviesProvider.notifier).loadNextPage();
+    ref.read(upcomingMoviesProvider.notifier).loadNextPage();
   }
 
   @override
   Widget build(BuildContext context) {
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final someWords = ref.watch(moviesSlideshowProvider);
+    // * 7. Mandar a pantalla
+    final popularMovies = ref.watch(popularMoviesProvider);
+    final topRatedMovies = ref.watch(topRatedMoviesProvider);
+    final upComingMovies = ref.watch(upcomingMoviesProvider);
 
-    if (someWords.isEmpty) return const Center(child: CircularProgressIndicator());
+    if (someWords.isEmpty) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
-    return Column(
-      children: [
-        const CustomAppBar(),
-       MoviesSlideShow(movies: someWords),
+    return CustomScrollView(
+      slivers: [
+      const SliverAppBar(
+        floating: true,
+        toolbarHeight: 65,
+        flexibleSpace: FlexibleSpaceBar(
+          title: CustomAppBar(),
 
-       MovieHorizontalListview(
-        movie: nowPlayingMovies,
-        title: 'En cines', 
-        subtitle: 'Hoy', 
-        loadNextPage: () => ref.read(nowPlayingMoviesProvider.notifier).loadNextPage()
         ),
-      //  MovieHorizontalListview(
-      //   movie: nowPlayingMovies,
-      //   title: 'En cines', 
-      //   subtitle: 'Hoy', 
-      //   loadNextPage: () => ref.read(nowPlayingMoviesProvider.notifier).loadNextPage()
-      //   ),
+      ),
+      SliverList(
+        
+        delegate: SliverChildBuilderDelegate((context, index) {
+          return Column(
+            children: [
+              MoviesSlideShow(movies: someWords),
+              MovieHorizontalListview(
+                  movie: nowPlayingMovies,
+                  title: 'En cines',
+                  subtitle: 'Hoy',
+                  loadNextPage: () => ref
+                      .read(nowPlayingMoviesProvider.notifier)
+                      .loadNextPage()),
+              MovieHorizontalListview(
+                  movie: popularMovies,
+                  title: 'Populares',
+                  subtitle: 'Tendencia',
+                  loadNextPage: () => ref
+                      .read(popularMoviesProvider.notifier)
+                      .loadNextPage()),
+              MovieHorizontalListview(
+                  movie: topRatedMovies,
+                  title: 'Top',
+                  subtitle: 'De todos los tiempos',
+                  loadNextPage: () => ref
+                      .read(topRatedMoviesProvider.notifier)
+                      .loadNextPage()),
 
-      ],
-    );
+              MovieHorizontalListview(
+                  movie: upComingMovies,
+                  title: 'Próximamente',
+                  subtitle: 'Esperando..',
+                  loadNextPage: () => ref
+                      .read(upcomingMoviesProvider.notifier)
+                      .loadNextPage()),
+              const SizedBox(height: 20)
+            ],
+          );
+        }, childCount: 1),
+      ),
+    ]);
   }
 }

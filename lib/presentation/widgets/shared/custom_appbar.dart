@@ -22,9 +22,9 @@ class CustomAppBar extends StatelessWidget {
                   child: Icon(
                     Icons.slow_motion_video,
                     color: colors.primary,
-                    size: 35,
+                    size: 30,
                   )),
-              const SizedBox(width: 12),
+              const SizedBox(width: 15),
               Text('Cinemapedia', style: titleStyle),
               const Spacer(),
               IconButton(
