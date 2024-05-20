@@ -36,9 +36,12 @@ class _HomeViewState extends ConsumerState<_HomeView> {
 
   @override
   Widget build(BuildContext context) {
+
+    final initialLoading = ref.watch(initialLoadingProvier);
+    if (initialLoading) return const FullScreenLoader();
+
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final someWords = ref.watch(moviesSlideshowProvider);
-    // * 7. Mandar a pantalla
     final popularMovies = ref.watch(popularMoviesProvider);
     final topRatedMovies = ref.watch(topRatedMoviesProvider);
     final upComingMovies = ref.watch(upcomingMoviesProvider);
@@ -54,7 +57,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
         toolbarHeight: 65,
         flexibleSpace: FlexibleSpaceBar(
           title: CustomAppBar(),
-
+    
         ),
       ),
       SliverList(
@@ -84,7 +87,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                   loadNextPage: () => ref
                       .read(topRatedMoviesProvider.notifier)
                       .loadNextPage()),
-
+    
               MovieHorizontalListview(
                   movie: upComingMovies,
                   title: 'Próximamente',

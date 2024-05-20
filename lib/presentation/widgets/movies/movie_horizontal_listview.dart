@@ -2,13 +2,14 @@ import 'package:animate_do/animate_do.dart';
 import 'package:cinemapedia/config/helpers/human_formats.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class MovieHorizontalListview extends StatefulWidget {
   final List<Movie> movie;
   final String? title;
   final String? subtitle;
   final VoidCallback? loadNextPage;
-  
+
   const MovieHorizontalListview(
       {super.key,
       required this.movie,
@@ -17,11 +18,11 @@ class MovieHorizontalListview extends StatefulWidget {
       this.loadNextPage});
 
   @override
-  State<MovieHorizontalListview> createState() => _MovieHorizontalListviewState();
+  State<MovieHorizontalListview> createState() =>
+      _MovieHorizontalListviewState();
 }
 
 class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
-
   final scrollController = ScrollController();
 
   @override
@@ -29,12 +30,11 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
     super.initState();
     scrollController.addListener(() {
       if (widget.loadNextPage == null) return;
-      if ((scrollController.position.pixels + 200) >= scrollController.position.maxScrollExtent ) {
-        
+      if ((scrollController.position.pixels + 200) >=
+          scrollController.position.maxScrollExtent) {
         widget.loadNextPage!();
-        
       }
-     });
+    });
   }
 
   @override
@@ -48,7 +48,8 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
       height: 400,
       child: Column(
         children: [
-          if (widget.title != null || widget.subtitle != null) _Title(widget.title, widget.subtitle),
+          if (widget.title != null || widget.subtitle != null)
+            _Title(widget.title, widget.subtitle),
           Expanded(
             child: ListView.builder(
               controller: scrollController,
@@ -56,7 +57,7 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
-                return _Slide(movie: widget.movie[index]);
+                return FadeInRight(child: _Slide(movie: widget.movie[index]));
               },
             ),
           ),
@@ -97,7 +98,11 @@ class _Slide extends StatelessWidget {
                       child: CircularProgressIndicator(strokeWidth: 2),
                     );
                   }
-                  return FadeInRight(child: child);
+                  // ? Navegación a pantalla por id
+
+                  return GestureDetector(
+                      onTap: () => context.push('/movie/${movie.id}'),
+                      child: FadeInRight(child: child));
                 },
               ),
             ),
