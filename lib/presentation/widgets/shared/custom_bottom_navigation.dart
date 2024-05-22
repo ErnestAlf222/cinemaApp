@@ -1,60 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+
 class CustomBottomNavigation extends StatelessWidget {
-  const CustomBottomNavigation({super.key});
+  final int currentIndex;
+  const CustomBottomNavigation({super.key, required this.currentIndex});
 
-  int getCurrentIndex(BuildContext context) {
-    final String location = GoRouterState.of(context).matchedLocation;
-
-    switch (location) {
-      case '/':
-        return 0;
-      case '/categories':
-        return 1;
-      
-      case '/favorites':
-        return 2;
-        
-      default:
-        return 0;
-    }
-
-  }
-
-  void onItemTapped( BuildContext context, int index) {
+  void onItemTap(BuildContext context, int index) {
     switch (index) {
       case 0:
-        context.go('/');
-      break;
-      case 1:
-        context.go('/favorites');
-      break;
-      case 2:
-        context.go('');
+        context.go('/home/0');
         break;
+      case 1:
+        context.go('/home/1');
+        break;
+      case 2:
+        context.go('/home/2');
+        break;
+        
       default:
     }
+
   }
+
+ 
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      currentIndex: currentIndex,
+      onTap: (value) => onItemTap(context, value),
       elevation: 0,
-      currentIndex: getCurrentIndex(context),
-      onTap: (value) => onItemTapped(context, value),
       items: const [
       BottomNavigationBarItem(
         icon: Icon(Icons.home_max),
-        label: 'Inicio'
+        label: 'Inicio',
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.label_outline_sharp),
-        label: 'Categorías'
+        label: 'Categorías',
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.favorite_outline_outlined),
-        label: 'Favoritos' 
+        label: 'Favoritos',
       ),
       
     ]);

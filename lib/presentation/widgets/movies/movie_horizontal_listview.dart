@@ -101,7 +101,7 @@ class _Slide extends StatelessWidget {
                   // ? Navegación a pantalla por id
 
                   return GestureDetector(
-                      onTap: () => context.push('/movie/${movie.id}'),
+                      onTap: () => context.push('/home/0/movie/${movie.id}'),
                       child: FadeInRight(child: child));
                 },
               ),
