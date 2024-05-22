@@ -1,8 +1,10 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:cinemapedia/presentation/delegates/search_movie_delegate.dart';
 import 'package:cinemapedia/presentation/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomAppBar extends ConsumerWidget {
   const CustomAppBar({super.key});
@@ -21,6 +23,8 @@ class CustomAppBar extends ConsumerWidget {
           child: Row(
             children: [
               SpinPerfect(
+                  spins: 10,
+                  infinite: true,
                   animate: true,
                   child: Icon(
                     Icons.slow_motion_video,
@@ -35,13 +39,21 @@ class CustomAppBar extends ConsumerWidget {
               IconButton(
                 icon: const Icon(Icons.search),
                 onPressed: () {
-                  final movieRepository = ref.read(movieRepositoryProvider);
+                  final searchMovies = ref.read(searchMoviesProvider);
+                  final searchQuery = ref.read(searchQueryProvider);
 
-                  showSearch(
+                  showSearch<Movie?>(
+                    query: searchQuery,
                     context: context,
                     delegate: SearchMovieDelegate(
-                        searchMovies: movieRepository.searchMovie),
-                  );
+                        initialMovies: searchMovies,
+                        searchMovies: ref
+                            .read(searchMoviesProvider.notifier)
+                            .searchMovieByQuery),
+                  ).then((movie) {
+                    if (movie == null) return;
+                    context.push('/movie/${movie.id}');
+                  });
                 },
               ),
             ],
