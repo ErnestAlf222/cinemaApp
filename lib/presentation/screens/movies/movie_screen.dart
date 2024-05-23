@@ -1,3 +1,4 @@
+import 'package:cinemapedia/config/helpers/human_formats.dart';
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 
@@ -86,6 +87,29 @@ class _MovieDetails extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(movie.title, style: textStyles.titleLarge),
+                    const SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 3),
+                      child: Row(
+                        children: [
+                          Text(movie.voteCount.toString(), style: textStyles.labelSmall,),
+                          Icon(Icons.sports_handball_outlined, color: Colors.deepOrange.shade900),
+                           Text('likes', style: textStyles.labelSmall),
+                           const SizedBox(width: 20),
+                            Icon(Icons.star, size: 15, color: Colors.amber.shade600),
+                            Icon(Icons.star, size: 15, color: Colors.amber.shade600),
+                            Icon(Icons.star, size: 15,color: Colors.amber.shade600),
+                           Text(HumanFormats.number(movie.voteAverage,1), style: textStyles.labelSmall),
+                           const SizedBox(width: 20),
+
+                           Icon(Icons.date_range_sharp, color: Colors.greenAccent.shade700, size: 19,),
+                           Text(HumanFormats.formatearFecha(movie.releaseDate), style: textStyles.labelSmall,)
+                        ],
+                      ),
+                    
+                    ),
+                    
+                    const SizedBox(height: 10),
                     Text(movie.overview),
                   ],
                 ),

@@ -45,6 +45,7 @@ class CustomBottomNavigation extends StatelessWidget {
         label: 'Favoritos',
       ),
       
+      
     ]);
   }
 }
