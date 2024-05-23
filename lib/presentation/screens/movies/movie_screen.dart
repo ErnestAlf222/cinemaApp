@@ -89,26 +89,38 @@ class _MovieDetails extends StatelessWidget {
                     Text(movie.title, style: textStyles.titleLarge),
                     const SizedBox(height: 10),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 3),
+                      padding: const EdgeInsets.symmetric(horizontal: 1),
                       child: Row(
                         children: [
-                          Text(movie.voteCount.toString(), style: textStyles.labelSmall,),
-                          Icon(Icons.sports_handball_outlined, color: Colors.deepOrange.shade900),
-                           Text('likes', style: textStyles.labelSmall),
-                           const SizedBox(width: 20),
-                            Icon(Icons.star, size: 15, color: Colors.amber.shade600),
-                            Icon(Icons.star, size: 15, color: Colors.amber.shade600),
-                            Icon(Icons.star, size: 15,color: Colors.amber.shade600),
-                           Text(HumanFormats.number(movie.voteAverage,1), style: textStyles.labelSmall),
-                           const SizedBox(width: 20),
-
-                           Icon(Icons.date_range_sharp, color: Colors.greenAccent.shade700, size: 19,),
-                           Text(HumanFormats.formatearFecha(movie.releaseDate), style: textStyles.labelSmall,)
+                          Text(
+                            movie.voteCount.toString(),
+                            style: textStyles.labelSmall,
+                          ),
+                          Icon(Icons.sports_handball_outlined,
+                              color: Colors.deepOrange.shade900),
+                          Text('likes', style: textStyles.labelSmall),
+                          const SizedBox(width: 10),
+                          Icon(Icons.star,
+                              size: 15, color: Colors.amber.shade600),
+                          Icon(Icons.star,
+                              size: 15, color: Colors.amber.shade600),
+                          Icon(Icons.star,
+                              size: 15, color: Colors.amber.shade600),
+                          Text(HumanFormats.number(movie.voteAverage, 1),
+                              style: textStyles.labelSmall),
+                          const SizedBox(width: 12),
+                          Icon(
+                            Icons.date_range_sharp,
+                            color: Colors.greenAccent.shade700,
+                            size: 19,
+                          ),
+                          Text(
+                            HumanFormats.formatearFecha(movie.releaseDate),
+                            style: textStyles.labelSmall,
+                          )
                         ],
                       ),
-                    
                     ),
-                    
                     const SizedBox(height: 10),
                     Text(movie.overview),
                   ],
@@ -217,13 +229,16 @@ class _CustomSliverAppBar extends StatelessWidget {
       backgroundColor: Colors.black,
       expandedHeight: size.height * 0.7,
       foregroundColor: Colors.white,
+      actions: [
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.favorite_border),
+          // icon: const Icon(Icons.favorite_rounded, color: Colors.red,),
+        ),
+      ],
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.symmetric(horizontal: 13, vertical: 7),
-        // title: Text(
-        //   movie.title,
-        //   style: const TextStyle(fontSize: 20),
-        //   textAlign: TextAlign.start,
-        // ),
+        
         background: Stack(
           children: [
             SizedBox.expand(
@@ -232,35 +247,63 @@ class _CustomSliverAppBar extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            const SizedBox.expand(
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    stops: [0.7, 1.0],
-                    colors: [Colors.transparent, Colors.black87],
-                  ),
-                ),
-              ),
+            const _CustomGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              stops: [0.0, 0.2],
+              color: [Colors.black54, Colors.transparent],
+              
             ),
-            const SizedBox.expand(
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    stops: [0.0, 0.3],
-                    colors: [
-                      Colors.black87,
-                      Colors.transparent,
-                    ],
-                  ),
-                ),
-              ),
-            )
+            const _CustomGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              stops: [0.8, 1.0],
+              color: [Colors.transparent, Colors.black54],
+              
+            ),
+            const _CustomGradient(
+              begin: Alignment.topLeft,
+              stops: [0.0, 0.3],
+              color: [Colors.black87, Colors.transparent],
+            ),
+            
+            
+            
           ],
         ),
       ),
     );
+  }
+}
+
+
+class _CustomGradient extends StatelessWidget {
+  final AlignmentGeometry begin;
+  final AlignmentGeometry end;
+  final List<double> stops;
+  final List<Color> color;
+
+
+  const _CustomGradient({
+    this.begin = Alignment.centerLeft,
+    this.end = Alignment.centerRight,
+    required this.stops,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return  SizedBox.expand(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: begin,
+                    end: end,
+                    stops: stops,
+                    colors: color,
+                  ),
+                ),
+              ),
+            );
   }
 }
