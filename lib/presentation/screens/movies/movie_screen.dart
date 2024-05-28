@@ -253,8 +253,9 @@ class _CustomSliverAppBar extends ConsumerWidget {
             error: (_, __) => throw UnimplementedError(),
           ),
           
-          onPressed: () {
-            ref.watch(localStorageRepositoryProvider).toggleFavorite(movie);
+          onPressed: () async {
+            // ref.read(localStorageRepositoryProvider).toggleFavorite(movie);
+            await ref.read(favoriteMoviesProvider.notifier).toggleFavorite(movie);
 
             // Cambiar en caliente el estado del botón
             ref.invalidate(isFavoriteProvider(movie.id));
