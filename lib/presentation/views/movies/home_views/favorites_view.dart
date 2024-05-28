@@ -49,7 +49,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(Icons.favorite_outline_sharp, size: 60, color: colors.primary),
+            Icon(Icons.camera_indoor, size: 60, color: colors.primary),
             Text('Ohh no',
                 style: TextStyle(fontSize: 30, color: colors.primary)),
 
